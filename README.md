@@ -7,4 +7,4 @@ Wtyczka bazuje na podobnym rozwiązaniu napisanym przez [Marcina Stachniuka](htt
 
 ## Instalacja
 
-Pobierz wtyczkę z [Chrome Web Store]()
+Pobierz wtyczkę z [Chrome Web Store](https://chrome.google.com/webstore/detail/znanymedico-medicover-%20-z/ifafigmnfgccpnljfbploaoclggplefj)
