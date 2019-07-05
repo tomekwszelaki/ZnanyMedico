@@ -1,0 +1,32 @@
+{
+  "manifest_version": 2,
+
+  "name": "ZnanyMedico - Medicover + ZnanyLekarz",
+  "short_name": "ZnanyMedico",
+  "description": "Wtyczka dodaje opinie o lekarzach na liście lekarzy na stronie Medicover, bazując na opiniach z serwisu ZnanyLekarz.pl.",
+  "version": "1.0",
+  "homepage_url": "https://github.com/tomekwszelaki/ZnanyMedico",
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png",
+    "256": "icon256.png",
+    "512": "icon512.png"
+  },
+
+  "browser_action": {
+    "default_icon": "icon16.png",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.medicover.pl/lekarze/*"],
+      "js": ["jquery-3.1.1.min.js", "doctor.js", "myscript.js"]
+    }
+  ],
+  "permissions": [
+    "https://www.medicover.pl/lekarze/*"
+  ],
+  "web_accessible_resources": ["star-gold-left-10.png", "star-gold-right-10.png", "star-gray-left-10.png",
+    "star-gray-right-10.png"]
+}
