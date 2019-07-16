@@ -40,9 +40,24 @@ function doctorsListPage() {
   loadStars(doctorNames, service, city);
 }
 
+function isMolPage() {
+  const currentUrl = window.location.toString();
+  return currentUrl.startsWith("https://mol.medicover.pl/");
+}
+
+function molListPage() {
+  const doctorNames = $("div.doctors-box > div.doctors-content h2.result-title");
+  const service = $("#big-spec-search-box > input").value;
+  const city = $("#big-loc-search-box > input").value;
+  loadStars(doctorNames, service, city);
+}
+
 function start() {
   if (isStartPage()) {
     jQuery(document).ready(doctorsListPage);
+  }
+  if (isMolPage()) {
+    jQuery(document).ready(molListPage);
   }
 }
 
