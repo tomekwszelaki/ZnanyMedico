@@ -16,7 +16,7 @@ function createStarScaleAsImgElements(numberOfStars) {
 }
 
 function generateInformation(noStars, noOpinions, url, title) {
-  return `<a href="${url}" target="_blank" title="${title}">
+  return `<a href="${url}" target="_blank" title="${title}" data-loc="znanymedico">
     <span style="white-space: nowrap; font-size: 10px;">${createStarScaleAsImgElements(noStars)} (${noOpinions} opinii)</span>
     </a>`;
 }
@@ -46,18 +46,31 @@ function isMolPage() {
 }
 
 function molListPage() {
-  const doctorNames = $("div.doctors-box > div.doctors-content h2.result-title");
-  const service = $("#big-spec-search-box > input").value;
-  const city = $("#big-loc-search-box > input").value;
+  const doctorNames = $(".freeSlot > div.row .doctorName");
+  const service = $("#advancedSearchForm select.form-control[formcontrolname=\"services\"]")[0].selectedOptions[0].textContent;
+  const city = $("#advancedSearchForm select.form-control[formcontrolname=\"regions\"]")[0].selectedOptions[0].textContent;
   loadStars(doctorNames, service, city);
+}
+
+function tryLoadStarsOnMolPageUntilAtLeastOneLoaded() {
+  let molPageInterval = setInterval(() => {
+    if (document.querySelector(".freeSlot > div.row .doctorName") !== null) {
+      molListPage();
+    }
+    if (document.querySelectorAll("a[data-loc=\"znanymedico\"]").length > 0) {
+      clearInterval(molPageInterval);
+    }
+  }, 1000);
+  console.log(molPageInterval);
 }
 
 function start() {
   if (isStartPage()) {
     jQuery(document).ready(doctorsListPage);
+    });
   }
   if (isMolPage()) {
-    jQuery(document).ready(molListPage);
+    jQuery(document).ready(tryLoadStarsOnMolPageUntilAtLeastOneLoaded());
   }
 }
 
