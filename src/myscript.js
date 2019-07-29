@@ -52,25 +52,44 @@ function molListPage() {
   loadStars(doctorNames, service, city);
 }
 
-function tryLoadStarsOnMolPageUntilAtLeastOneLoaded() {
-  let molPageInterval = setInterval(() => {
-    if (document.querySelector(".freeSlot > div.row .doctorName") !== null) {
-      molListPage();
+
+function waitForTheSearchButtonToBeVisible() {
+  let searchBtn = document.querySelector("button[_ngcontent-c2][type=\"submit\"]");
+  let searchBtnInterval = setInterval(() => {
+    if (searchBtn !== null) {
+      searchBtn.onmouseup = tryLoadStarsOnMolPageUntilAtLeastOneLoaded;
+      clearInterval(searchBtnInterval);
     }
-    if (document.querySelectorAll("a[data-loc=\"znanymedico\"]").length > 0) {
-      clearInterval(molPageInterval);
-    }
+    console.log("searchBtnInterval: " + searchBtnInterval);
   }, 1000);
-  console.log(molPageInterval);
+}
+
+function tryLoadStarsOnMolPageUntilAtLeastOneLoaded() {
+  let gracePeriod = 5;
+  let doctorsDivs = document.querySelectorAll(".freeSlot > div.row .doctorName");
+  let enrichedDivs = document.querySelectorAll("a[data-loc=\"znanymedico\"]");
+  let molPageInterval = setInterval(() => {
+    if (enrichedDivs.length && doctorsDivs.length && enrichedDivs.length >= doctorsDivs.length) {
+      gracePeriod = gracePeriod - 1;
+      if (!gracePeriod) {
+          clearInterval(molPageInterval);
+      }
+    }
+    doctorsDivs.forEach(d => {
+      if(d.querySelector("a") === null) {
+        molListPage([d]);
+      }
+    });
+  }, 2000);
+  console.log("molPageInterval: " + molPageInterval);
 }
 
 function start() {
   if (isStartPage()) {
     jQuery(document).ready(doctorsListPage);
-    });
-  }
+    };
   if (isMolPage()) {
-    jQuery(document).ready(tryLoadStarsOnMolPageUntilAtLeastOneLoaded());
+    jQuery(document).ready(waitForTheSearchButtonToBeVisible());
   }
 }
 
